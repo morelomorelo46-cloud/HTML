@@ -1,0 +1,3924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Football Tournament Creator</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+    --bg:#06121c;
+    --bg2:#0b1d2b;
+    --card:#102536;
+    --card2:#142f42;
+    --line:#29495d;
+    --text:#fff;
+    --muted:#91a5b5;
+    --green:#19b879;
+    --green2:#48e2a5;
+    --blue:#287fc0;
+    --purple:#6950c4;
+    --red:#823e49;
+    --gold:#b99643;
+}
+
+body{
+    min-height:100vh;
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top,#193e55 0,#06121c 50%);
+}
+
+button,select,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(4,13,21,.96);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:blur(12px);
+}
+
+.header{
+    max-width:1450px;
+    margin:auto;
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,#25d494,#08734f);
+    font-size:23px;
+}
+
+.brand h1{
+    font-size:18px;
+}
+
+.brand p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:3px;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+}
+
+.top-btn{
+    border:1px solid var(--line);
+    color:#fff;
+    background:#102637;
+    border-radius:8px;
+    padding:9px 12px;
+    font-size:9px;
+    font-weight:bold;
+}
+
+.top-btn:hover{
+    background:#18374c;
+}
+
+/* NAV */
+
+nav{
+    border-bottom:1px solid var(--line);
+    background:#081823;
+    overflow-x:auto;
+}
+
+.nav{
+    max-width:1450px;
+    margin:auto;
+    display:flex;
+    gap:5px;
+    padding:8px 12px;
+}
+
+.nav button{
+    border:0;
+    color:#8095a5;
+    background:transparent;
+    padding:10px 13px;
+    border-radius:7px;
+    font-size:9px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.nav button:hover,
+.nav button.active{
+    color:#fff;
+    background:#163348;
+}
+
+/* MAIN */
+
+main{
+    max-width:1450px;
+    margin:auto;
+    padding:28px 18px 70px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    margin-bottom:24px;
+}
+
+.hero h2{
+    font-size:27px;
+    margin-bottom:7px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* WELCOME */
+
+.welcome{
+    max-width:900px;
+    margin:70px auto;
+    text-align:center;
+}
+
+.welcome .big-logo{
+    font-size:75px;
+    margin-bottom:18px;
+}
+
+.welcome h2{
+    font-size:34px;
+    margin-bottom:9px;
+}
+
+.welcome p{
+    color:var(--muted);
+    line-height:1.6;
+    font-size:12px;
+    margin-bottom:27px;
+}
+
+.primary{
+    border:0;
+    border-radius:9px;
+    padding:13px 25px;
+    background:var(--green);
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.primary:hover{
+    filter:brightness(1.15);
+}
+
+/* CREATE */
+
+.create-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
+}
+
+.type-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.type-card{
+    padding:17px;
+    border:1px solid var(--line);
+    background:#0d2130;
+    border-radius:12px;
+    text-align:left;
+    color:white;
+}
+
+.type-card:hover,
+.type-card.selected{
+    border-color:var(--green);
+    background:#103328;
+}
+
+.type-card .emoji{
+    font-size:23px;
+    margin-bottom:9px;
+}
+
+.type-card strong{
+    display:block;
+    font-size:12px;
+}
+
+.type-card span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:5px;
+}
+
+.config{
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,#102536,#0b1c29);
+    border-radius:14px;
+    padding:24px;
+}
+
+.config h3{
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+.config-description{
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:22px;
+}
+
+.field{
+    margin-bottom:17px;
+}
+
+.field label{
+    display:block;
+    color:#aabac5;
+    font-size:9px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    padding:11px;
+    border-radius:8px;
+    border:1px solid #345369;
+    background:#071520;
+    color:#fff;
+    outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:var(--green);
+}
+
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:13px;
+}
+
+.info-box{
+    padding:14px;
+    border:1px solid #345369;
+    border-radius:9px;
+    background:#091a27;
+    margin-bottom:18px;
+}
+
+.info-box strong{
+    font-size:10px;
+}
+
+.info-box p{
+    color:var(--muted);
+    font-size:9px;
+    line-height:1.6;
+    margin-top:5px;
+}
+
+.config-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:22px;
+}
+
+.secondary{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:11px 15px;
+    background:#142a3a;
+    color:#fff;
+    font-size:9px;
+    font-weight:bold;
+}
+
+/* DASHBOARD */
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.tournament-title h2{
+    font-size:25px;
+}
+
+.tournament-title p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.dashboard-actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+.danger{
+    background:var(--red);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.stat{
+    padding:16px;
+    border-radius:11px;
+    border:1px solid var(--line);
+    background:#0d2232;
+}
+
+.stat small{
+    display:block;
+    color:#8197a7;
+    font-size:8px;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:19px;
+}
+
+.format-banner{
+    padding:15px;
+    border-radius:11px;
+    border:1px solid #37556a;
+    background:#102b3d;
+    margin-bottom:22px;
+}
+
+.format-banner strong{
+    font-size:11px;
+}
+
+.format-banner p{
+    color:#91a6b5;
+    font-size:9px;
+    margin-top:6px;
+}
+
+/* GROUPS */
+
+.groups{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:17px;
+}
+
+.group{
+    border:1px solid var(--line);
+    border-radius:13px;
+    overflow:hidden;
+    background:#0d2030;
+}
+
+.group-head{
+    padding:13px 15px;
+    display:flex;
+    justify-content:space-between;
+    background:#132e42;
+    border-bottom:1px solid var(--line);
+}
+
+.group-head strong{
+    font-size:12px;
+}
+
+.group-head span{
+    color:#8298a8;
+    font-size:8px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    color:#718797;
+    font-size:7px;
+    padding:7px 3px;
+}
+
+td{
+    padding:8px 3px;
+    border-top:1px solid #1d394b;
+    text-align:center;
+    font-size:9px;
+}
+
+td.name{
+    text-align:left;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.qualified{
+    background:rgba(25,184,121,.08);
+}
+
+.qualified td:first-child{
+    color:var(--green2);
+}
+
+.group-matches{
+    border-top:1px solid var(--line);
+    padding:12px;
+}
+
+.match{
+    display:grid;
+    grid-template-columns:1fr 55px 1fr;
+    align-items:center;
+    gap:6px;
+    padding:8px;
+    margin-bottom:6px;
+    border:1px solid #203f52;
+    border-radius:8px;
+    background:#081a28;
+}
+
+.match:last-child{
+    margin-bottom:0;
+}
+
+.team{
+    font-size:8px;
+    font-weight:bold;
+}
+
+.team.right{
+    text-align:right;
+}
+
+.score{
+    text-align:center;
+    font-weight:bold;
+    font-size:10px;
+}
+
+.match-buttons{
+    grid-column:1/4;
+    display:flex;
+    justify-content:center;
+    gap:5px;
+}
+
+.small-btn{
+    border:0;
+    border-radius:5px;
+    color:#fff;
+    padding:6px 8px;
+    font-size:7px;
+    font-weight:bold;
+}
+
+.edit{
+    background:var(--blue);
+}
+
+.sim{
+    background:var(--purple);
+}
+
+/* BRACKET */
+
+.bracket-scroll{
+    overflow-x:auto;
+    padding-bottom:15px;
+}
+
+.bracket{
+    min-width:1200px;
+    display:flex;
+    gap:20px;
+}
+
+.round{
+    width:220px;
+    flex:none;
+}
+
+.round-title{
+    text-align:center;
+    padding:10px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:#132d41;
+    color:#b9c9d3;
+    font-size:9px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.round-list{
+    min-height:700px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    gap:8px;
+}
+
+.kmatch{
+    overflow:hidden;
+    border:1px solid #2a485b;
+    border-radius:9px;
+    background:#0c2130;
+}
+
+.kteam{
+    padding:10px;
+    min-height:35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:8px;
+}
+
+.kteam+.kteam{
+    border-top:1px solid #29485b;
+}
+
+.kteam.winner{
+    background:rgba(25,184,121,.13);
+    font-weight:bold;
+}
+
+.kteam.waiting{
+    color:#617a89;
+    font-style:italic;
+}
+
+.kstate{
+    border-top:1px solid #1d3a4c;
+    padding:6px;
+    text-align:center;
+    color:#718795;
+    font-size:7px;
+}
+
+.kbuttons{
+    border-top:1px solid #1d3a4c;
+    padding:6px;
+    display:flex;
+    justify-content:center;
+    gap:4px;
+}
+
+/* CHAMPION */
+
+.champion{
+    max-width:550px;
+    margin:35px auto;
+    text-align:center;
+    padding:38px 20px;
+    border:1px solid #7c6832;
+    border-radius:15px;
+    background:radial-gradient(circle,#342d1d,#0e2130 70%);
+}
+
+.champion .cup{
+    font-size:55px;
+}
+
+.champion h3{
+    color:#d8bc6b;
+    letter-spacing:2px;
+    font-size:10px;
+    margin:9px 0;
+}
+
+.champion strong{
+    font-size:25px;
+}
+
+/* EMPTY */
+
+.empty{
+    padding:55px 20px;
+    text-align:center;
+    border:1px dashed #315267;
+    border-radius:12px;
+    color:#708696;
+}
+
+.empty div{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.empty p{
+    font-size:10px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    background:rgba(0,0,0,.78);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:440px;
+    padding:22px;
+    border:1px solid #38576b;
+    border-radius:14px;
+    background:#0d2131;
+}
+
+.modal-box h3{
+    font-size:17px;
+    margin-bottom:6px;
+}
+
+.modal-box p{
+    color:var(--muted);
+    font-size:9px;
+    margin-bottom:18px;
+}
+
+.score-grid{
+    display:grid;
+    grid-template-columns:1fr 60px 1fr;
+    align-items:center;
+    gap:8px;
+}
+
+.score-team{
+    font-size:9px;
+    font-weight:bold;
+}
+
+.score-team.right{
+    text-align:right;
+}
+
+.score-input{
+    width:100%;
+    padding:9px 3px;
+    background:#071520;
+    border:1px solid #38566b;
+    color:#fff;
+    border-radius:7px;
+    text-align:center;
+    font-size:18px;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+    margin-top:20px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:850px){
+    .create-layout{
+        grid-template-columns:1fr;
+    }
+
+    .groups{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    main{
+        padding:20px 10px 50px;
+    }
+
+    .grid2{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .header-actions .top-btn:first-child{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header">
+
+    <div class="brand">
+        <div class="logo">🏆</div>
+        <div>
+            <h1>TOURNAMENT CREATOR</h1>
+            <p>FOOTBALL MANAGEMENT SYSTEM</p>
+        </div>
+    </div>
+
+    <div class="header-actions">
+        <button class="top-btn" onclick="goCreate()">
+            ＋ NUEVO TORNEO
+        </button>
+        <button class="top-btn" onclick="resetEverything()">
+            🔄 REINICIAR
+        </button>
+    </div>
+
+</div>
+</header>
+
+<nav>
+<div class="nav">
+
+    <button class="active" onclick="showPage('home',this)">
+        INICIO
+    </button>
+
+    <button onclick="showPage('create',this)">
+        CREAR TORNEO
+    </button>
+
+    <button onclick="showPage('groups',this)">
+        GRUPOS
+    </button>
+
+    <button onclick="showPage('bracket',this)">
+        ELIMINATORIAS
+    </button>
+
+    <button onclick="showPage('champion',this)">
+        CAMPEÓN
+    </button>
+
+</div>
+</nav>
+
+<main>
+
+<!-- INICIO -->
+
+<section id="home" class="page active">
+
+    <div class="welcome">
+
+        <div class="big-logo">🏆</div>
+
+        <h2>Football Tournament Creator</h2>
+
+        <p>
+            Crea Mundiales, Ligas, Copas y torneos personalizados.
+            Configura el formato, equipos y reglas y deja que el
+            sistema genere automáticamente el torneo.
+        </p>
+
+        <button class="primary" onclick="goCreate()">
+            ⚽ CREAR TORNEO
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CREAR -->
+
+<section id="create" class="page">
+
+    <div class="hero">
+        <h2>Crear torneo</h2>
+        <p>Selecciona el tipo de competición que quieres crear.</p>
+    </div>
+
+    <div class="create-layout">
+
+        <div class="type-list">
+
+            <button class="type-card selected"
+                    onclick="selectType('worldcup',this)">
+
+                <div class="emoji">🌎</div>
+                <strong>MUNDIAL</strong>
+                <span>
+                    Formatos históricos de la Copa Mundial.
+                </span>
+
+            </button>
+
+
+            <button class="type-card"
+                    onclick="selectType('league',this)">
+
+                <div class="emoji">🏟️</div>
+                <strong>LIGA</strong>
+                <span>
+                    Todos contra todos.
+                </span>
+
+            </button>
+
+
+            <button class="type-card"
+                    onclick="selectType('cup',this)">
+
+                <div class="emoji">🏆</div>
+                <strong>COPA</strong>
+                <span>
+                    Eliminación directa.
+                </span>
+
+            </button>
+
+
+            <button class="type-card"
+                    onclick="selectType('custom',this)">
+
+                <div class="emoji">⚙️</div>
+                <strong>PERSONALIZADO</strong>
+                <span>
+                    Configura tu propio formato.
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div class="config">
+
+            <h3 id="configTitle">
+                🌎 Crear Mundial
+            </h3>
+
+            <div id="configDescription"
+                 class="config-description">
+                Selecciona una edición histórica.
+            </div>
+
+
+            <!-- MUNDIAL -->
+
+            <div id="worldcupConfig">
+
+                <div class="field">
+
+                    <label>
+                        EDICIÓN DEL MUNDIAL
+                    </label>
+
+                    <select id="worldcupYear"
+                            onchange="updateWorldCupInfo()">
+
+                        <option value="2026">2026</option>
+                        <option value="2022">2022</option>
+                        <option value="2018">2018</option>
+                        <option value="2014">2014</option>
+                        <option value="2010">2010</option>
+                        <option value="2006">2006</option>
+                        <option value="2002">2002</option>
+                        <option value="1998">1998</option>
+                        <option value="1994">1994</option>
+                        <option value="1990">1990</option>
+                        <option value="1986">1986</option>
+                        <option value="1982">1982</option>
+                        <option value="1978">1978</option>
+                        <option value="1974">1974</option>
+                        <option value="1970">1970</option>
+                        <option value="1966">1966</option>
+                        <option value="1962">1962</option>
+                        <option value="1958">1958</option>
+                        <option value="1954">1954</option>
+                        <option value="1950">1950</option>
+                        <option value="1938">1938</option>
+                        <option value="1934">1934</option>
+                        <option value="1930">1930</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong id="wcInfoTitle">
+                        Mundial 2026
+                    </strong>
+
+                    <p id="wcInfo">
+                        48 selecciones · 12 grupos de 4
+                        · 32 clasificadas · 104 partidos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- LIGA -->
+
+            <div id="leagueConfig" style="display:none">
+
+                <div class="field">
+
+                    <label>
+                        NOMBRE DE LA LIGA
+                    </label>
+
+                    <input
+                        id="leagueName"
+                        value="Mi Liga"
+                        placeholder="Nombre del torneo"
+                    >
+
+                </div>
+
+                <div class="grid2">
+
+                    <div class="field">
+
+                        <label>
+                            EQUIPOS
+                        </label>
+
+                        <select id="leagueTeams">
+
+                            <option>8</option>
+                            <option>10</option>
+                            <option>12</option>
+                            <option>16</option>
+                            <option selected>20</option>
+                            <option>24</option>
+                            <option>32</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            FORMATO
+                        </label>
+
+                        <select id="leagueFormat">
+
+                            <option value="single">
+                                Una vuelta
+                            </option>
+
+                            <option value="double">
+                                Ida y vuelta
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COPA -->
+
+            <div id="cupConfig" style="display:none">
+
+                <div class="field">
+
+                    <label>
+                        NOMBRE DE LA COPA
+                    </label>
+
+                    <input
+                        id="cupName"
+                        value="Copa Internacional"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        EQUIPOS
+                    </label>
+
+                    <select id="cupTeams">
+
+                        <option>4</option>
+                        <option>8</option>
+                        <option>16</option>
+                        <option selected>32</option>
+                        <option>64</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        FORMATO DE ELIMINATORIA
+                    </label>
+
+                    <select id="cupFormat">
+
+                        <option value="single">
+                            Partido único
+                        </option>
+
+                        <option value="double">
+                            Ida y vuelta
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERSONALIZADO -->
+
+            <div id="customConfig" style="display:none">
+
+                <div class="field">
+
+                    <label>
+                        NOMBRE
+                    </label>
+
+                    <input
+                        id="customName"
+                        value="Mi Torneo"
+                    >
+
+                </div>
+
+                <div class="grid2">
+
+                    <div class="field">
+
+                        <label>
+                            EQUIPOS
+                        </label>
+
+                        <input
+                            id="customTeams"
+                            type="number"
+                            min="2"
+                            max="64"
+                            value="24"
+                        >
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            TIPO
+                        </label>
+
+                        <select id="customFormat">
+
+                            <option value="groups">
+                                Grupos + eliminatorias
+                            </option>
+
+                            <option value="knockout">
+                                Eliminación directa
+                            </option>
+
+                            <option value="league">
+                                Liga
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="grid2">
+
+                    <div class="field">
+
+                        <label>
+                            GRUPOS
+                        </label>
+
+                        <input
+                            id="customGroups"
+                            type="number"
+                            min="1"
+                            max="16"
+                            value="6"
+                        >
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            EQUIPOS POR GRUPO
+                        </label>
+
+                        <input
+                            id="customPerGroup"
+                            type="number"
+                            min="2"
+                            max="8"
+                            value="4"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="config-actions">
+
+                <button class="secondary"
+                        onclick="showPage('home')">
+                    CANCELAR
+                </button>
+
+                <button class="primary"
+                        onclick="createTournament()">
+                    🚀 CREAR TORNEO
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<section id="groups" class="page">
+
+    <div id="dashboard"></div>
+
+</section>
+
+
+<!-- BRACKET -->
+
+<section id="bracket" class="page">
+
+    <div class="hero">
+
+        <h2>Eliminatorias</h2>
+
+        <p>
+            Los ganadores avanzan automáticamente.
+        </p>
+
+    </div>
+
+    <div id="bracketContainer"></div>
+
+</section>
+
+
+<!-- CAMPEÓN -->
+
+<section id="champion" class="page">
+
+    <div id="championPage"></div>
+
+</section>
+
+</main>
+
+
+<!-- SCORE MODAL -->
+
+<div id="scoreModal" class="modal">
+
+    <div class="modal-box">
+
+        <h3>Editar marcador</h3>
+
+        <p>
+            Introduce el resultado del partido.
+        </p>
+
+        <div class="score-grid">
+
+            <div id="homeName"
+                 class="score-team right">
+                -
+            </div>
+
+            <input
+                id="homeScore"
+                class="score-input"
+                type="number"
+                min="0"
+                value="0"
+            >
+
+            <div id="awayName"
+                 class="score-team">
+                -
+            </div>
+
+            <div></div>
+
+            <input
+                id="awayScore"
+                class="score-input"
+                type="number"
+                min="0"
+                value="0"
+            >
+
+            <div></div>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button class="secondary"
+                    onclick="closeModal()">
+                CANCELAR
+            </button>
+
+            <button class="primary"
+                    onclick="saveMatchScore()">
+                GUARDAR
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATOS
+========================================================= */
+
+const teams = [
+
+["🇨🇴","Colombia"],
+["🇦🇷","Argentina"],
+["🇧🇷","Brasil"],
+["🇺🇾","Uruguay"],
+["🇨🇱","Chile"],
+["🇵🇪","Perú"],
+["🇪🇨","Ecuador"],
+["🇵🇾","Paraguay"],
+["🇻🇪","Venezuela"],
+["🇧🇴","Bolivia"],
+
+["🇲🇽","México"],
+["🇺🇸","Estados Unidos"],
+["🇨🇦","Canadá"],
+["🇨🇷","Costa Rica"],
+["🇵🇦","Panamá"],
+["🇯🇲","Jamaica"],
+
+["🇪🇸","España"],
+["🇫🇷","Francia"],
+["🇩🇪","Alemania"],
+["🇮🇹","Italia"],
+["🇵🇹","Portugal"],
+["🇳🇱","Países Bajos"],
+["🇧🇪","Bélgica"],
+["🏴","Inglaterra"],
+["🇭🇷","Croacia"],
+["🇩🇰","Dinamarca"],
+["🇨🇭","Suiza"],
+["🇷🇸","Serbia"],
+["🇵🇱","Polonia"],
+["🇹🇷","Turquía"],
+["🇺🇦","Ucrania"],
+["🇸🇪","Suecia"],
+["🇳🇴","Noruega"],
+["🇦🇹","Austria"],
+
+["🇲🇦","Marruecos"],
+["🇪🇬","Egipto"],
+["🇸🇳","Senegal"],
+["🇳🇬","Nigeria"],
+["🇨🇲","Camerún"],
+["🇬🇭","Ghana"],
+["🇩🇿","Argelia"],
+["🇿🇦","Sudáfrica"],
+
+["🇯🇵","Japón"],
+["🇰🇷","Corea del Sur"],
+["🇦🇺","Australia"],
+["🇮🇷","Irán"],
+["🇸🇦","Arabia Saudita"],
+["🇶🇦","Catar"],
+
+["🇨🇮","Costa de Marfil"]
+
+].map((t,i)=>({
+    id:i,
+    flag:t[0],
+    name:t[1]
+}));
+
+
+/* =========================================================
+   FORMATOS HISTÓRICOS
+========================================================= */
+
+const worldCupFormats={
+
+1930:{
+teams:13,
+description:"13 selecciones · grupos · semifinales · final"
+},
+
+1934:{
+teams:16,
+description:"16 selecciones · eliminación directa"
+},
+
+1938:{
+teams:15,
+description:"15 selecciones · eliminación directa"
+},
+
+1950:{
+teams:13,
+description:"13 selecciones · grupos · grupo final"
+},
+
+1954:{
+teams:16,
+description:"16 selecciones · 4 grupos de 4 · cuartos"
+},
+
+1958:{
+teams:16,
+description:"16 selecciones · 4 grupos de 4 · cuartos"
+},
+
+1962:{
+teams:16,
+description:"16 selecciones · 4 grupos de 4 · cuartos"
+},
+
+1966:{
+teams:16,
+description:"16 selecciones · 4 grupos de 4 · cuartos"
+},
+
+1970:{
+teams:16,
+description:"16 selecciones · 4 grupos de 4 · cuartos"
+},
+
+1974:{
+teams:16,
+description:"16 selecciones · grupos · segunda fase"
+},
+
+1978:{
+teams:16,
+description:"16 selecciones · grupos · segunda fase"
+},
+
+1982:{
+teams:24,
+description:"24 selecciones · grupos · segunda fase"
+},
+
+1986:{
+teams:24,
+description:"24 selecciones · 6 grupos · 16 clasificadas"
+},
+
+1990:{
+teams:24,
+description:"24 selecciones · 6 grupos · 16 clasificadas"
+},
+
+1994:{
+teams:24,
+description:"24 selecciones · 6 grupos · 16 clasificadas"
+},
+
+1998:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2002:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2006:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2010:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2014:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2018:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2022:{
+teams:32,
+description:"32 selecciones · 8 grupos de 4 · octavos"
+},
+
+2026:{
+teams:48,
+description:"48 selecciones · 12 grupos de 4 · 32 clasificadas · 104 partidos"
+}
+
+};
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let currentType="worldcup";
+
+let tournament=null;
+
+let editingMatch=null;
+
+
+function saveTournament(){
+
+    if(!tournament)
+        return;
+
+    localStorage.setItem(
+        "footballTournament",
+        JSON.stringify(tournament)
+    );
+
+}
+
+
+function loadTournament(){
+
+    const saved=
+        localStorage.getItem(
+            "footballTournament"
+        );
+
+    if(saved){
+
+        try{
+            tournament=JSON.parse(saved);
+        }
+        catch{
+            tournament=null;
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+function showPage(id,button){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(p=>
+            p.classList.remove("active")
+        );
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(b=>
+            b.classList.remove("active")
+        );
+
+
+    if(button)
+        button.classList.add("active");
+
+
+    if(id==="groups")
+        renderDashboard();
+
+    if(id==="bracket")
+        renderBracket();
+
+    if(id==="champion")
+        renderChampion();
+
+}
+
+
+function goCreate(){
+
+    showPage("create");
+
+}
+
+
+/* =========================================================
+   TIPO
+========================================================= */
+
+function selectType(type,button){
+
+    currentType=type;
+
+
+    document
+        .querySelectorAll(".type-card")
+        .forEach(card=>
+            card.classList.remove("selected")
+        );
+
+
+    if(button)
+        button.classList.add("selected");
+
+
+    document.getElementById(
+        "worldcupConfig"
+    ).style.display=
+        type==="worldcup"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "leagueConfig"
+    ).style.display=
+        type==="league"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "cupConfig"
+    ).style.display=
+        type==="cup"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "customConfig"
+    ).style.display=
+        type==="custom"
+        ? "block"
+        : "none";
+
+
+    const titles={
+
+        worldcup:"🌎 Crear Mundial",
+        league:"🏟️ Crear Liga",
+        cup:"🏆 Crear Copa",
+        custom:"⚙️ Crear torneo personalizado"
+
+    };
+
+
+    const descriptions={
+
+        worldcup:
+            "Selecciona una edición histórica del Mundial.",
+
+        league:
+            "Configura una competición de liga.",
+
+        cup:
+            "Crea un torneo de eliminación directa.",
+
+        custom:
+            "Construye tu propio formato."
+
+    };
+
+
+    document.getElementById(
+        "configTitle"
+    ).textContent=titles[type];
+
+
+    document.getElementById(
+        "configDescription"
+    ).textContent=
+        descriptions[type];
+
+}
+
+
+function updateWorldCupInfo(){
+
+    const year=
+        Number(
+            document.getElementById(
+                "worldcupYear"
+            ).value
+        );
+
+
+    const format=
+        worldCupFormats[year];
+
+
+    document.getElementById(
+        "wcInfoTitle"
+    ).textContent=
+        "Mundial "+year;
+
+
+    document.getElementById(
+        "wcInfo"
+    ).textContent=
+        format.teams+
+        " selecciones · "+
+        format.description;
+
+}
+
+
+/* =========================================================
+   CREAR TORNEO
+========================================================= */
+
+function createTournament(){
+
+    let name;
+    let totalTeams;
+    let formatDescription;
+
+
+    if(currentType==="worldcup"){
+
+        const year=
+            Number(
+                document.getElementById(
+                    "worldcupYear"
+                ).value
+            );
+
+
+        const format=
+            worldCupFormats[year];
+
+
+        name=
+            "Mundial "+year;
+
+        totalTeams=
+            format.teams;
+
+        formatDescription=
+            format.description;
+
+
+        tournament=
+            createWorldCup(
+                year,
+                totalTeams
+            );
+
+    }
+
+
+    else if(currentType==="league"){
+
+        name=
+            document.getElementById(
+                "leagueName"
+            ).value.trim()
+            || "Mi Liga";
+
+
+        totalTeams=
+            Number(
+                document.getElementById(
+                    "leagueTeams"
+                ).value
+            );
+
+
+        const double=
+            document.getElementById(
+                "leagueFormat"
+            ).value==="double";
+
+
+        formatDescription=
+            totalTeams+
+            " equipos · liga "+
+            (double
+                ? "ida y vuelta"
+                : "a una vuelta");
+
+
+        tournament=
+            createLeague(
+                name,
+                totalTeams,
+                double
+            );
+
+    }
+
+
+    else if(currentType==="cup"){
+
+        name=
+            document.getElementById(
+                "cupName"
+            ).value.trim()
+            || "Copa";
+
+
+        totalTeams=
+            Number(
+                document.getElementById(
+                    "cupTeams"
+                ).value
+            );
+
+
+        const double=
+            document.getElementById(
+                "cupFormat"
+            ).value==="double";
+
+
+        formatDescription=
+            totalTeams+
+            " equipos · eliminación "+
+            (double
+                ? "ida y vuelta"
+                : "partido único");
+
+
+        tournament=
+            createCup(
+                name,
+                totalTeams,
+                double
+            );
+
+    }
+
+
+    else{
+
+        name=
+            document.getElementById(
+                "customName"
+            ).value.trim()
+            || "Mi Torneo";
+
+
+        totalTeams=
+            Number(
+                document.getElementById(
+                    "customTeams"
+                ).value
+            );
+
+
+        const format=
+            document.getElementById(
+                "customFormat"
+            ).value;
+
+
+        const groups=
+            Number(
+                document.getElementById(
+                    "customGroups"
+                ).value
+            );
+
+
+        const perGroup=
+            Number(
+                document.getElementById(
+                    "customPerGroup"
+                ).value
+            );
+
+
+        formatDescription=
+            totalTeams+
+            " equipos · formato personalizado";
+
+
+        tournament={
+            type:"custom",
+            name:name,
+            teams:teams.slice(0,totalTeams),
+            groups:[],
+            matches:[],
+            rounds:[],
+            description:formatDescription,
+            custom:{
+                format,
+                groups,
+                perGroup
+            }
+        };
+
+
+        if(format==="groups")
+            createCustomGroups();
+
+        else if(format==="knockout")
+            createKnockout(totalTeams);
+
+        else
+            createLeagueMatches(
+                tournament.teams,
+                false
+            );
+
+    }
+
+
+    saveTournament();
+
+    renderDashboard();
+
+    renderBracket();
+
+    renderChampion();
+
+    showPage("groups");
+
+}
+
+
+/* =========================================================
+   MUNDIAL
+========================================================= */
+
+function createWorldCup(year,count){
+
+    const selected=
+        teams.slice(0,count);
+
+
+    const obj={
+
+        type:"worldcup",
+        year:year,
+        name:"Mundial "+year,
+        teams:selected,
+        groups:[],
+        rounds:[],
+        description:
+            worldCupFormats[year].description
+
+    };
+
+
+    /*
+       Para los formatos modernos de 32/48
+       generamos grupos automáticamente.
+    */
+
+    if(year===2026){
+
+        createGroupsForObject(
+            obj,
+            12,
+            4
+        );
+
+        createRound(
+            obj,
+            32,
+            "Dieciseisavos"
+        );
+
+    }
+
+    else if(count===32){
+
+        createGroupsForObject(
+            obj,
+            8,
+            4
+        );
+
+        createRound(
+            obj,
+            16,
+            "Octavos"
+        );
+
+    }
+
+    else if(count===24){
+
+        createGroupsForObject(
+            obj,
+            6,
+            4
+        );
+
+        createRound(
+            obj,
+            16,
+            "Octavos"
+        );
+
+    }
+
+    else if(count===16){
+
+        createGroupsForObject(
+            obj,
+            4,
+            4
+        );
+
+        createRound(
+            obj,
+            8,
+            "Cuartos"
+        );
+
+    }
+
+    else{
+
+        createKnockoutObject(
+            obj,
+            count
+        );
+
+    }
+
+
+    return obj;
+
+}
+
+
+/* =========================================================
+   GRUPOS
+========================================================= */
+
+function createGroupsForObject(
+    obj,
+    groupCount,
+    teamsPerGroup
+){
+
+    obj.groups=[];
+
+
+    for(
+        let g=0;
+        g<groupCount;
+        g++
+    ){
+
+        const group={
+
+            name:
+                String.fromCharCode(
+                    65+g
+                ),
+
+            teams:
+                obj.teams.slice(
+                    g*teamsPerGroup,
+                    (g+1)*teamsPerGroup
+                ),
+
+            matches:[]
+
+        };
+
+
+        for(
+            let i=0;
+            i<group.teams.length;
+            i++
+        ){
+
+            for(
+                let j=i+1;
+                j<group.teams.length;
+                j++
+            ){
+
+                group.matches.push({
+
+                    home:group.teams[i],
+                    away:group.teams[j],
+
+                    homeScore:null,
+                    awayScore:null
+
+                });
+
+            }
+
+        }
+
+
+        obj.groups.push(group);
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLA
+========================================================= */
+
+function getStandings(group){
+
+    const rows=
+        group.teams.map(team=>({
+
+            team:team,
+            pj:0,
+            pg:0,
+            pe:0,
+            pp:0,
+            gf:0,
+            gc:0,
+            dg:0,
+            pts:0
+
+        }));
+
+
+    group.matches.forEach(match=>{
+
+        if(
+            match.homeScore===null ||
+            match.awayScore===null
+        )
+            return;
+
+
+        const h=
+            rows.find(
+                r=>r.team.id===match.home.id
+            );
+
+        const a=
+            rows.find(
+                r=>r.team.id===match.away.id
+            );
+
+
+        if(!h || !a)
+            return;
+
+
+        const hs=
+            Number(match.homeScore);
+
+        const as=
+            Number(match.awayScore);
+
+
+        h.pj++;
+        a.pj++;
+
+        h.gf+=hs;
+        h.gc+=as;
+
+        a.gf+=as;
+        a.gc+=hs;
+
+
+        if(hs>as){
+
+            h.pg++;
+            a.pp++;
+            h.pts+=3;
+
+        }
+
+        else if(as>hs){
+
+            a.pg++;
+            h.pp++;
+            a.pts+=3;
+
+        }
+
+        else{
+
+            h.pe++;
+            a.pe++;
+
+            h.pts++;
+            a.pts++;
+
+        }
+
+    });
+
+
+    rows.forEach(
+        r=>r.dg=r.gf-r.gc
+    );
+
+
+    rows.sort((a,b)=>{
+
+        if(b.pts!==a.pts)
+            return b.pts-a.pts;
+
+        if(b.dg!==a.dg)
+            return b.dg-a.dg;
+
+        if(b.gf!==a.gf)
+            return b.gf-a.gf;
+
+        return a.team.name.localeCompare(
+            b.team.name
+        );
+
+    });
+
+
+    return rows;
+
+}
+
+
+/* =========================================================
+   RONDA
+========================================================= */
+
+function createRound(
+    obj,
+    teamCount,
+    name
+){
+
+    const matches=
+        teamCount/2;
+
+
+    obj.rounds.push({
+
+        name:name,
+
+        matches:
+            Array.from(
+                {length:matches},
+                ()=>({
+
+                    home:null,
+                    away:null,
+                    homeScore:null,
+                    awayScore:null,
+                    winner:null
+
+                })
+            )
+
+    });
+
+
+    setupRoundTeams(obj);
+
+}
+
+
+function setupRoundTeams(obj){
+
+    const groups=
+        obj.groups;
+
+
+    if(!groups.length)
+        return;
+
+
+    const first=
+        obj.rounds[0];
+
+
+    const qualified=[];
+
+
+    groups.forEach(group=>{
+
+        const table=
+            getStandings(group);
+
+
+        if(
+            table.length>=2
+        ){
+
+            qualified.push(
+                table[0].team,
+                table[1].team
+            );
+
+        }
+
+    });
+
+
+    /*
+       En 2026 necesitamos 32 equipos.
+       Añadimos mejores terceros.
+    */
+
+    if(
+        obj.year===2026 &&
+        qualified.length<32
+    ){
+
+        const thirds=[];
+
+
+        groups.forEach(group=>{
+
+            const table=
+                getStandings(group);
+
+            if(table[2])
+                thirds.push(table[2]);
+
+        });
+
+
+        thirds.sort((a,b)=>{
+
+            if(b.pts!==a.pts)
+                return b.pts-a.pts;
+
+            if(b.dg!==a.dg)
+                return b.dg-a.dg;
+
+            return b.gf-a.gf;
+
+        });
+
+
+        while(
+            qualified.length<32 &&
+            thirds.length
+        ){
+
+            qualified.push(
+                thirds.shift().team
+            );
+
+        }
+
+    }
+
+
+    for(
+        let i=0;
+        i<qualified.length &&
+        i<first.matches.length*2;
+        i++
+    ){
+
+        const match=
+            first.matches[
+                Math.floor(i/2)
+            ];
+
+
+        if(i%2===0)
+            match.home=qualified[i];
+        else
+            match.away=qualified[i];
+
+    }
+
+}
+
+
+/* =========================================================
+   COPA
+========================================================= */
+
+function createCup(
+    name,
+    count,
+    double
+){
+
+    const obj={
+
+        type:"cup",
+        name:name,
+        teams:teams.slice(0,count),
+        groups:[],
+        rounds:[],
+        double:double,
+        description:
+            count+
+            " equipos · eliminación"
+
+    };
+
+
+    createKnockoutObject(
+        obj,
+        count
+    );
+
+
+    return obj;
+
+}
+
+
+function createKnockoutObject(
+    obj,
+    count
+){
+
+    let n=count;
+
+
+    while(n>=2){
+
+        let roundName;
+
+
+        if(n===2)
+            roundName="Final";
+
+        else if(n===4)
+            roundName="Semifinales";
+
+        else if(n===8)
+            roundName="Cuartos";
+
+        else if(n===16)
+            roundName="Octavos";
+
+        else if(n===32)
+            roundName="Dieciseisavos";
+
+        else
+            roundName="Ronda";
+
+
+        obj.rounds.push({
+
+            name:roundName,
+
+            matches:
+                Array.from(
+                    {length:n/2},
+                    ()=>({
+
+                        home:null,
+                        away:null,
+                        homeScore:null,
+                        awayScore:null,
+                        winner:null
+
+                    })
+                )
+
+        });
+
+
+        n/=2;
+
+    }
+
+
+    const first=
+        obj.rounds[0];
+
+
+    obj.teams.forEach((team,i)=>{
+
+        if(!first.matches[
+            Math.floor(i/2)
+        ])
+            return;
+
+
+        if(i%2===0)
+            first.matches[
+                Math.floor(i/2)
+            ].home=team;
+
+        else
+            first.matches[
+                Math.floor(i/2)
+            ].away=team;
+
+    });
+
+}
+
+
+/* =========================================================
+   LIGA
+========================================================= */
+
+function createLeague(
+    name,
+    count,
+    double
+){
+
+    const obj={
+
+        type:"league",
+        name:name,
+        teams:teams.slice(0,count),
+        groups:[],
+        matches:[],
+        rounds:[],
+        double:double,
+        description:
+            count+
+            " equipos · "+
+            (double
+                ?"ida y vuelta"
+                :"una vuelta")
+
+    };
+
+
+    createLeagueMatches(
+        obj.teams,
+        double,
+        obj
+    );
+
+
+    return obj;
+
+}
+
+
+function createLeagueMatches(
+    list,
+    double,
+    obj=tournament
+){
+
+    obj.matches=[];
+
+
+    for(
+        let i=0;
+        i<list.length;
+        i++
+    ){
+
+        for(
+            let j=i+1;
+            j<list.length;
+            j++
+        ){
+
+            obj.matches.push({
+
+                home:list[i],
+                away:list[j],
+
+                homeScore:null,
+                awayScore:null
+
+            });
+
+
+            if(double){
+
+                obj.matches.push({
+
+                    home:list[j],
+                    away:list[i],
+
+                    homeScore:null,
+                    awayScore:null
+
+                });
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   PERSONALIZADO
+========================================================= */
+
+function createCustomGroups(){
+
+    const count=
+        tournament.custom.groups;
+
+
+    const per=
+        tournament.custom.perGroup;
+
+
+    createGroupsForObject(
+        tournament,
+        count,
+        per
+    );
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR ELIMINATORIAS
+========================================================= */
+
+function updateKnockout(){
+
+    if(!tournament)
+        return;
+
+
+    const rounds=
+        tournament.rounds;
+
+
+    for(
+        let r=0;
+        r<rounds.length-1;
+        r++
+    ){
+
+        const current=
+            rounds[r];
+
+        const next=
+            rounds[r+1];
+
+
+        current.matches.forEach(
+            (match,index)=>{
+
+                if(!match.winner)
+                    return;
+
+
+                const target=
+                    Math.floor(index/2);
+
+
+                if(
+                    !next.matches[target]
+                )
+                    return;
+
+
+                if(index%2===0)
+                    next.matches[target].home=
+                        match.winner;
+
+                else
+                    next.matches[target].away=
+                        match.winner;
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+    const container=
+        document.getElementById(
+            "dashboard"
+        );
+
+
+    if(!tournament){
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div>🏆</div>
+
+                <p>
+                    Todavía no has creado un torneo.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const groupCount=
+        tournament.groups.length;
+
+
+    const matchCount=
+        tournament.groups.reduce(
+            (sum,g)=>
+                sum+g.matches.length,
+            0
+        );
+
+
+    let html=`
+
+        <div class="dashboard-header">
+
+            <div class="tournament-title">
+
+                <h2>
+                    ${tournament.name}
+                </h2>
+
+                <p>
+                    ${tournament.description}
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-actions">
+
+                <button
+                    class="top-btn"
+                    onclick="simulateAll()"
+                >
+                    🎲 SIMULAR TODO
+                </button>
+
+                <button
+                    class="top-btn danger"
+                    onclick="resetTournament()"
+                >
+                    🔄 REINICIAR TORNEO
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat">
+                <small>EQUIPOS</small>
+                <strong>
+                    ${tournament.teams.length}
+                </strong>
+            </div>
+
+            <div class="stat">
+                <small>GRUPOS</small>
+                <strong>
+                    ${groupCount || "—"}
+                </strong>
+            </div>
+
+            <div class="stat">
+                <small>PARTIDOS</small>
+                <strong>
+                    ${matchCount}
+                </strong>
+            </div>
+
+            <div class="stat">
+                <small>FORMATO</small>
+                <strong style="font-size:11px">
+                    ${tournament.type.toUpperCase()}
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="format-banner">
+
+            <strong>
+                📋 FORMATO
+            </strong>
+
+            <p>
+                ${tournament.description}
+            </p>
+
+        </div>
+
+    `;
+
+
+    if(tournament.groups.length){
+
+        html+=`
+
+            <div class="groups">
+
+        `;
+
+
+        tournament.groups.forEach(
+            (group,gIndex)=>{
+
+                html+=renderGroup(
+                    group,
+                    gIndex
+                );
+
+            }
+        );
+
+
+        html+=`
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(
+        tournament.type==="league" &&
+        !tournament.groups.length
+    ){
+
+        html+=renderLeague();
+
+    }
+
+
+    container.innerHTML=html;
+
+}
+
+
+/* =========================================================
+   RENDER GRUPO
+========================================================= */
+
+function renderGroup(
+    group,
+    groupIndex
+){
+
+    const table=
+        getStandings(group);
+
+
+    let html=`
+
+        <div class="group">
+
+            <div class="group-head">
+
+                <strong>
+                    GRUPO ${group.name}
+                </strong>
+
+                <span>
+                    ${group.teams.length} EQUIPOS
+                </span>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>EQUIPO</th>
+                        <th>PJ</th>
+                        <th>G</th>
+                        <th>E</th>
+                        <th>P</th>
+                        <th>GF</th>
+                        <th>GC</th>
+                        <th>DG</th>
+                        <th>PTS</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+    `;
+
+
+    table.forEach((row,index)=>{
+
+        html+=`
+
+            <tr
+                class="${index<2?"qualified":""}"
+            >
+
+                <td>
+                    ${index+1}
+                </td>
+
+                <td class="name">
+                    ${teamText(row.team)}
+                </td>
+
+                <td>${row.pj}</td>
+                <td>${row.pg}</td>
+                <td>${row.pe}</td>
+                <td>${row.pp}</td>
+                <td>${row.gf}</td>
+                <td>${row.gc}</td>
+
+                <td>
+                    ${row.dg>0?"+":""}${row.dg}
+                </td>
+
+                <td>
+                    <b>${row.pts}</b>
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html+=`
+
+                </tbody>
+
+            </table>
+
+
+            <div class="group-matches">
+
+    `;
+
+
+    group.matches.forEach(
+        (match,index)=>{
+
+            const played=
+                match.homeScore!==null;
+
+
+            html+=`
+
+                <div class="match">
+
+                    <div class="team right">
+                        ${teamText(match.home)}
+                    </div>
+
+                    <div class="score">
+
+                        ${
+                            played
+                            ? `${match.homeScore}-${match.awayScore}`
+                            : "VS"
+                        }
+
+                    </div>
+
+                    <div class="team">
+                        ${teamText(match.away)}
+                    </div>
+
+
+                    <div class="match-buttons">
+
+                        <button
+                            class="small-btn edit"
+                            onclick="
+                                editGroupMatch(
+                                    ${groupIndex},
+                                    ${index}
+                                )
+                            "
+                        >
+                            ✏️ EDITAR
+                        </button>
+
+
+                        <button
+                            class="small-btn sim"
+                            onclick="
+                                simulateGroupMatch(
+                                    ${groupIndex},
+                                    ${index}
+                                )
+                            "
+                        >
+                            🎲 SIMULAR
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html+=`
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    return html;
+
+}
+
+
+/* =========================================================
+   LIGA
+========================================================= */
+
+function renderLeague(){
+
+    return `
+
+        <div class="empty">
+
+            <div>🏟️</div>
+
+            <p>
+                ${tournament.matches.length}
+                partidos generados.
+                Usa "Editar" o "Simular todo" para
+                comenzar la competición.
+            </p>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   TEXTO EQUIPO
+========================================================= */
+
+function teamText(team){
+
+    return team
+        ? team.flag+" "+team.name
+        : "POR DEFINIR";
+
+}
+
+
+/* =========================================================
+   EDITAR GRUPO
+========================================================= */
+
+function editGroupMatch(
+    groupIndex,
+    matchIndex
+){
+
+    const match=
+        tournament.groups[
+            groupIndex
+        ].matches[matchIndex];
+
+
+    editingMatch={
+        type:"group",
+        groupIndex:groupIndex,
+        matchIndex:matchIndex
+    };
+
+
+    openScoreModal(match);
+
+}
+
+
+function simulateGroupMatch(
+    groupIndex,
+    matchIndex
+){
+
+    const match=
+        tournament.groups[
+            groupIndex
+        ].matches[matchIndex];
+
+
+    match.homeScore=
+        Math.floor(Math.random()*5);
+
+
+    match.awayScore=
+        Math.floor(Math.random()*5);
+
+
+    updateKnockout();
+
+    saveTournament();
+
+    renderDashboard();
+
+    renderBracket();
+
+}
+
+
+/* =========================================================
+   EDITAR ELIMINATORIA
+========================================================= */
+
+function editKnockoutMatch(
+    roundIndex,
+    matchIndex
+){
+
+    const match=
+        tournament.rounds[
+            roundIndex
+        ].matches[matchIndex];
+
+
+    if(
+        !match.home ||
+        !match.away
+    ){
+
+        alert(
+            "⚠️ El partido todavía no tiene los dos equipos."
+        );
+
+        return;
+
+    }
+
+
+    editingMatch={
+        type:"knockout",
+        roundIndex:roundIndex,
+        matchIndex:matchIndex
+    };
+
+
+    openScoreModal(match);
+
+}
+
+
+function simulateKnockoutMatch(
+    roundIndex,
+    matchIndex
+){
+
+    const match=
+        tournament.rounds[
+            roundIndex
+        ].matches[matchIndex];
+
+
+    if(
+        !match.home ||
+        !match.away
+    ){
+
+        alert(
+            "⚠️ Faltan equipos por definir."
+        );
+
+        return;
+
+    }
+
+
+    let hs=
+        Math.floor(Math.random()*5);
+
+    let as=
+        Math.floor(Math.random()*5);
+
+
+    if(hs===as)
+        as++;
+
+
+    match.homeScore=hs;
+    match.awayScore=as;
+
+
+    match.winner=
+        hs>as
+        ? match.home
+        : match.away;
+
+
+    updateKnockout();
+
+    saveTournament();
+
+    renderBracket();
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openScoreModal(match){
+
+    document.getElementById(
+        "homeName"
+    ).textContent=
+        teamText(match.home);
+
+
+    document.getElementById(
+        "awayName"
+    ).textContent=
+        teamText(match.away);
+
+
+    document.getElementById(
+        "homeScore"
+    ).value=
+        match.homeScore===null
+        ? 0
+        : match.homeScore;
+
+
+    document.getElementById(
+        "awayScore"
+    ).value=
+        match.awayScore===null
+        ? 0
+        : match.awayScore;
+
+
+    document.getElementById(
+        "scoreModal"
+    ).classList.add("show");
+
+}
+
+
+function saveMatchScore(){
+
+    if(!editingMatch)
+        return;
+
+
+    const hs=
+        Number(
+            document.getElementById(
+                "homeScore"
+            ).value
+        );
+
+
+    const as=
+        Number(
+            document.getElementById(
+                "awayScore"
+            ).value
+        );
+
+
+    if(
+        !Number.isInteger(hs) ||
+        !Number.isInteger(as) ||
+        hs<0 ||
+        as<0
+    ){
+
+        alert(
+            "Marcador inválido."
+        );
+
+        return;
+
+    }
+
+
+    let match;
+
+
+    if(
+        editingMatch.type==="group"
+    ){
+
+        match=
+            tournament.groups[
+                editingMatch.groupIndex
+            ].matches[
+                editingMatch.matchIndex
+            ];
+
+    }
+
+    else{
+
+        match=
+            tournament.rounds[
+                editingMatch.roundIndex
+            ].matches[
+                editingMatch.matchIndex
+            ];
+
+
+        if(hs===as){
+
+            alert(
+                "En una eliminatoria debe existir un ganador."
+            );
+
+            return;
+
+        }
+
+
+        match.winner=
+            hs>as
+            ? match.home
+            : match.away;
+
+    }
+
+
+    match.homeScore=hs;
+    match.awayScore=as;
+
+
+    updateKnockout();
+
+    saveTournament();
+
+    closeModal();
+
+    renderDashboard();
+
+    renderBracket();
+
+    renderChampion();
+
+}
+
+
+function closeModal(){
+
+    document
+        .getElementById(
+            "scoreModal"
+        )
+        .classList.remove("show");
+
+
+    editingMatch=null;
+
+}
+
+
+/* =========================================================
+   BRACKET
+========================================================= */
+
+function renderBracket(){
+
+    const container=
+        document.getElementById(
+            "bracketContainer"
+        );
+
+
+    if(
+        !tournament ||
+        !tournament.rounds.length
+    ){
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div>⚽</div>
+
+                <p>
+                    Este torneo no tiene eliminatorias
+                    configuradas.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    updateKnockout();
+
+
+    let html=`
+
+        <div class="bracket-scroll">
+
+            <div class="bracket">
+
+    `;
+
+
+    tournament.rounds.forEach(
+        (round,rIndex)=>{
+
+            html+=`
+
+                <div class="round">
+
+                    <div class="round-title">
+                        ${round.name}
+                    </div>
+
+                    <div class="round-list">
+
+            `;
+
+
+            round.matches.forEach(
+                (match,mIndex)=>{
+
+                    const played=
+                        match.homeScore!==null;
+
+
+                    html+=`
+
+                        <div class="kmatch">
+
+                            <div class="
+                                kteam
+                                ${
+                                    match.winner &&
+                                    match.home &&
+                                    match.winner.id===
+                                    match.home.id
+                                    ? "winner":""
+                                }
+                                ${
+                                    !match.home
+                                    ? "waiting":""
+                                }
+                            ">
+
+                                <span>
+                                    ${teamText(match.home)}
+                                </span>
+
+                                ${
+                                    played
+                                    ? `<b>${match.homeScore}</b>`
+                                    : ""
+                                }
+
+                            </div>
+
+
+                            <div class="
+                                kteam
+                                ${
+                                    match.winner &&
+                                    match.away &&
+                                    match.winner.id===
+                                    match.away.id
+                                    ? "winner":""
+                                }
+                                ${
+                                    !match.away
+                                    ? "waiting":""
+                                }
+                            ">
+
+                                <span>
+                                    ${teamText(match.away)}
+                                </span>
+
+                                ${
+                                    played
+                                    ? `<b>${match.awayScore}</b>`
+                                    : ""
+                                }
+
+                            </div>
+
+
+                            <div class="kstate">
+
+                                ${
+                                    played
+                                    ? "FINALIZADO"
+                                    : "POR JUGAR"
+                                }
+
+                            </div>
+
+
+                            <div class="kbuttons">
+
+                                <button
+                                    class="small-btn edit"
+                                    onclick="
+                                        editKnockoutMatch(
+                                            ${rIndex},
+                                            ${mIndex}
+                                        )
+                                    "
+                                >
+                                    ✏️
+                                </button>
+
+
+                                <button
+                                    class="small-btn sim"
+                                    onclick="
+                                        simulateKnockoutMatch(
+                                            ${rIndex},
+                                            ${mIndex}
+                                        )
+                                    "
+                                >
+                                    🎲
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            html+=`
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html+=`
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    container.innerHTML=html;
+
+}
+
+
+/* =========================================================
+   CAMPEÓN
+========================================================= */
+
+function renderChampion(){
+
+    const container=
+        document.getElementById(
+            "championPage"
+        );
+
+
+    if(
+        !tournament ||
+        !tournament.rounds.length
+    ){
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div>🏆</div>
+
+                <p>
+                    El campeón aparecerá aquí.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const last=
+        tournament.rounds[
+            tournament.rounds.length-1
+        ];
+
+
+    const final=
+        last.matches[0];
+
+
+    if(
+        final &&
+        final.winner
+    ){
+
+        container.innerHTML=`
+
+            <div class="champion">
+
+                <div class="cup">
+                    🏆
+                </div>
+
+                <h3>
+                    CAMPEÓN
+                </h3>
+
+                <strong>
+                    ${teamText(final.winner)}
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+    else{
+
+        container.innerHTML=`
+
+            <div class="empty">
+
+                <div>🏆</div>
+
+                <p>
+                    El campeón aparecerá
+                    cuando termine la final.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   SIMULAR TODO
+========================================================= */
+
+function simulateAll(){
+
+    if(!tournament)
+        return;
+
+
+    tournament.groups.forEach(
+        group=>{
+
+            group.matches.forEach(
+                match=>{
+
+                    if(
+                        match.homeScore===null
+                    ){
+
+                        match.homeScore=
+                            Math.floor(
+                                Math.random()*5
+                            );
+
+                        match.awayScore=
+                            Math.floor(
+                                Math.random()*5
+                            );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    updateKnockout();
+
+
+    tournament.rounds.forEach(
+        round=>{
+
+            round.matches.forEach(
+                match=>{
+
+                    if(
+                        match.home &&
+                        match.away &&
+                        match.homeScore===null
+                    ){
+
+                        let hs=
+                            Math.floor(
+                                Math.random()*5
+                            );
+
+                        let as=
+                            Math.floor(
+                                Math.random()*5
+                            );
+
+
+                        if(hs===as)
+                            as++;
+
+
+                        match.homeScore=hs;
+                        match.awayScore=as;
+
+
+                        match.winner=
+                            hs>as
+                            ? match.home
+                            : match.away;
+
+                    }
+
+                }
+            );
+
+            updateKnockout();
+
+        }
+    );
+
+
+    saveTournament();
+
+    renderDashboard();
+
+    renderBracket();
+
+    renderChampion();
+
+
+    alert(
+        "🎉 Se han simulado los partidos disponibles."
+    );
+
+}
+
+
+/* =========================================================
+   REINICIAR TORNEO
+========================================================= */
+
+function resetTournament(){
+
+    if(
+        !confirm(
+            "¿Reiniciar el torneo actual?"
+        )
+    )
+        return;
+
+
+    tournament=null;
+
+    localStorage.removeItem(
+        "footballTournament"
+    );
+
+
+    renderDashboard();
+
+    renderBracket();
+
+    renderChampion();
+
+    showPage("home");
+
+}
+
+
+/* =========================================================
+   REINICIAR TODO
+========================================================= */
+
+function resetEverything(){
+
+    if(
+        !confirm(
+            "¿Eliminar el torneo guardado y comenzar de nuevo?"
+        )
+    )
+        return;
+
+
+    tournament=null;
+
+    localStorage.removeItem(
+        "footballTournament"
+    );
+
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   CARGAR
+========================================================= */
+
+loadTournament();
+
+if(tournament){
+
+    renderDashboard();
+    renderBracket();
+    renderChampion();
+
+}
+
+
+/* =========================================================
+   MODAL CLICK FUERA
+========================================================= */
+
+document
+    .getElementById("scoreModal")
+    .addEventListener(
+        "click",
+        e=>{
+
+            if(
+                e.target.id==="scoreModal"
+            )
+                closeModal();
+
+        }
+    );
+
+
+</script>
+
+</body>
+</html>
