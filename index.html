@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>MUNDIAL 48 | Tournament</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#07131e;
+    --bg2:#0b1d2b;
+    --card:#102536;
+    --card2:#142f42;
+    --line:#29495d;
+    --text:#fff;
+    --muted:#91a5b5;
+    --green:#16a66f;
+    --green2:#42d99d;
+    --blue:#287fc0;
+    --purple:#6750bd;
+    --orange:#9b6c2d;
+    --red:#7b3e48;
+}
+
+body{
+    min-height:100vh;
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #1a3e56 0,
+            #07131e 45%
+        );
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(5,14,23,.96);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line);
+}
+
+.header{
+    max-width:1500px;
+    margin:auto;
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:23px;
+    background:
+        linear-gradient(
+            145deg,
+            #20c78c,
+            #08714f
+        );
+}
+
+.title h1{
+    font-size:18px;
+}
+
+.title p{
+    margin-top:3px;
+    font-size:10px;
+    color:var(--muted);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.active-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#9db0bd;
+    font-size:10px;
+}
+
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#35d99a;
+    box-shadow:0 0 9px #35d99a;
+}
+
+.reset-btn{
+    border:0;
+    border-radius:8px;
+    padding:10px 13px;
+    background:var(--red);
+    color:white;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.reset-btn:hover{
+    filter:brightness(1.2);
+}
+
+/* NAV */
+
+nav{
+    background:#091923;
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+}
+
+.nav{
+    max-width:1500px;
+    margin:auto;
+    display:flex;
+    gap:4px;
+    padding:8px 12px;
+}
+
+.nav button{
+    border:0;
+    background:transparent;
+    color:#8196a6;
+    padding:11px 14px;
+    border-radius:8px;
+    font-size:10px;
+    font-weight:bold;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#173449;
+    color:#fff;
+}
+
+/* MAIN */
+
+main{
+    max-width:1500px;
+    margin:auto;
+    padding:28px 18px 70px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:22px;
+}
+
+.hero h2{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.badge{
+    padding:9px 14px;
+    border-radius:20px;
+    background:#102a3c;
+    border:1px solid #31566c;
+    color:#b9cad5;
+    font-size:10px;
+}
+
+/* GROUPS */
+
+.groups{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+}
+
+.group{
+    background:
+        linear-gradient(
+            145deg,
+            #102536,
+            #0c1c29
+        );
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.group-header{
+    padding:14px 16px;
+    background:#132e42;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.group-header strong{
+    font-size:14px;
+}
+
+.group-header span{
+    color:#8298a8;
+    font-size:9px;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    padding:8px 4px;
+    color:#718899;
+    font-size:8px;
+}
+
+td{
+    padding:9px 4px;
+    border-top:1px solid #1b3648;
+    text-align:center;
+    font-size:10px;
+}
+
+td.team-name{
+    text-align:left;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+tr.qualified{
+    background:rgba(22,166,111,.08);
+}
+
+.position{
+    font-weight:bold;
+}
+
+tr.qualified .position{
+    color:var(--green2);
+}
+
+.points{
+    font-weight:bold;
+}
+
+.group-matches{
+    border-top:1px solid var(--line);
+    padding:13px;
+}
+
+.matches-label{
+    color:#8299aa;
+    font-size:9px;
+    font-weight:bold;
+    margin-bottom:9px;
+}
+
+.group-match{
+    display:grid;
+    grid-template-columns:1fr 70px 1fr;
+    gap:7px;
+    align-items:center;
+    padding:9px;
+    margin-bottom:7px;
+    border-radius:9px;
+    background:#091a28;
+    border:1px solid #1f3d50;
+}
+
+.group-match:last-child{
+    margin-bottom:0;
+}
+
+.match-team{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.match-team.right{
+    text-align:right;
+}
+
+.match-score{
+    text-align:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.match-state{
+    margin-top:3px;
+    color:#718a9b;
+    font-size:7px;
+}
+
+.match-state.finished{
+    color:#35d99a;
+}
+
+.actions{
+    grid-column:1 / 4;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:5px;
+}
+
+.btn{
+    border:0;
+    border-radius:6px;
+    padding:7px 9px;
+    color:white;
+    font-size:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{
+    filter:brightness(1.15);
+}
+
+.btn-edit{
+    background:var(--blue);
+}
+
+.btn-sim{
+    background:var(--purple);
+}
+
+.btn-team{
+    background:var(--orange);
+}
+
+/* BRACKET */
+
+.bracket-wrapper{
+    overflow-x:auto;
+    padding-bottom:20px;
+}
+
+.bracket{
+    min-width:1390px;
+    display:flex;
+    gap:20px;
+}
+
+.round{
+    width:245px;
+    flex:none;
+}
+
+.round-title{
+    padding:11px;
+    margin-bottom:12px;
+    text-align:center;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:#132d41;
+    color:#c2d0d9;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.round-list{
+    min-height:720px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    gap:10px;
+}
+
+.knockout-match{
+    border-radius:10px;
+    overflow:hidden;
+    background:#0d2131;
+    border:1px solid #29475b;
+}
+
+.knockout-team{
+    min-height:38px;
+    padding:9px 10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:7px;
+    font-size:10px;
+}
+
+.knockout-team + .knockout-team{
+    border-top:1px solid #29475b;
+}
+
+.knockout-team.winner{
+    background:rgba(22,166,111,.14);
+    font-weight:bold;
+}
+
+.knockout-team.waiting{
+    color:#607889;
+    font-style:italic;
+}
+
+.knockout-state{
+    padding:6px;
+    border-top:1px solid #1c3748;
+    text-align:center;
+    color:#718797;
+    font-size:7px;
+}
+
+.knockout-actions{
+    padding:7px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:5px;
+    border-top:1px solid #1c3748;
+}
+
+/* CHAMPION */
+
+.champion{
+    max-width:600px;
+    margin:35px auto;
+    padding:40px 20px;
+    text-align:center;
+    border:1px solid #806d35;
+    border-radius:17px;
+    background:
+        radial-gradient(
+            circle,
+            #382f1d,
+            #0f2232 68%
+        );
+}
+
+.cup{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.champion h3{
+    color:#d8bc6b;
+    font-size:11px;
+    letter-spacing:2px;
+    margin-bottom:12px;
+}
+
+.champion-name{
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* RESERVE */
+
+.reserve{
+    margin-top:25px;
+    padding:16px;
+    border-radius:12px;
+    border:1px solid #725a2b;
+    background:#1d1a12;
+}
+
+.reserve-title{
+    color:#d8bc6b;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.reserve-text{
+    color:#a99d7a;
+    font-size:10px;
+}
+
+/* MODALS */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    padding:15px;
+    background:rgba(0,0,0,.78);
+    align-items:center;
+    justify-content:center;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:450px;
+    padding:22px;
+    border-radius:15px;
+    border:1px solid #38576b;
+    background:#0d2131;
+}
+
+.modal-box h3{
+    font-size:18px;
+    margin-bottom:5px;
+}
+
+.modal-description{
+    color:#8298a8;
+    font-size:10px;
+    margin-bottom:18px;
+}
+
+.score-form{
+    display:grid;
+    grid-template-columns:1fr 60px 1fr;
+    align-items:center;
+    gap:8px;
+}
+
+.score-name{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.score-name.right{
+    text-align:right;
+}
+
+.score-input{
+    width:100%;
+    padding:10px 4px;
+    border-radius:7px;
+    border:1px solid #3b5b70;
+    background:#071520;
+    color:white;
+    text-align:center;
+    font-size:20px;
+    outline:none;
+}
+
+.select-wrapper{
+    margin-top:12px;
+}
+
+.select-wrapper label{
+    display:block;
+    margin-bottom:6px;
+    color:#9cb0be;
+    font-size:9px;
+}
+
+.select-wrapper select{
+    width:100%;
+    padding:11px;
+    border-radius:8px;
+    border:1px solid #3b5b70;
+    background:#071520;
+    color:white;
+    outline:none;
+}
+
+.modal-actions{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:7px;
+}
+
+.cancel-btn{
+    background:#354b59;
+}
+
+.save-btn{
+    background:var(--green);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .groups{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .active-status{
+        display:none;
+    }
+}
+
+@media(max-width:600px){
+
+    main{
+        padding:20px 10px 50px;
+    }
+
+    .hero h2{
+        font-size:23px;
+    }
+
+    .header{
+        padding:11px 13px;
+    }
+
+    .title p{
+        display:none;
+    }
+
+    .reset-btn{
+        padding:8px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="header">
+
+    <div class="logo-box">
+
+        <div class="logo">
+            🏆
+        </div>
+
+        <div class="title">
+
+            <h1>MUNDIAL 48</h1>
+
+            <p>
+                INTERNATIONAL FOOTBALL TOURNAMENT
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="active-status">
+
+            <span class="status-dot"></span>
+
+            TORNEO ACTIVO
+
+        </div>
+
+        <button
+            class="reset-btn"
+            onclick="resetTournament()"
+        >
+            🔄 REINICIAR
+        </button>
+
+    </div>
+
+</div>
+
+</header>
+
+
+<nav>
+
+<div class="nav">
+
+    <button
+        class="active"
+        onclick="changePage('groups',this)"
+    >
+        FASE DE GRUPOS
+    </button>
+
+    <button
+        onclick="changePage('r16',this)"
+    >
+        DIECISEISAVOS
+    </button>
+
+    <button
+        onclick="changePage('r8',this)"
+    >
+        OCTAVOS
+    </button>
+
+    <button
+        onclick="changePage('qf',this)"
+    >
+        CUARTOS
+    </button>
+
+    <button
+        onclick="changePage('sf',this)"
+    >
+        SEMIFINALES
+    </button>
+
+    <button
+        onclick="changePage('final',this)"
+    >
+        FINAL
+    </button>
+
+</div>
+
+</nav>
+
+
+<main>
+
+
+<!-- =========================
+     GRUPOS
+========================= -->
+
+<section
+    id="groups"
+    class="page active"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Fase de grupos
+        </h2>
+
+        <p>
+            48 selecciones · 16 grupos · 3 equipos
+        </p>
+
+    </div>
+
+    <div class="badge">
+        TOP 2 DE CADA GRUPO
+    </div>
+
+</div>
+
+
+<div
+    id="groupsContainer"
+    class="groups"
+></div>
+
+
+<div
+    id="reserveContainer"
+></div>
+
+</section>
+
+
+<!-- =========================
+     DIECISEISAVOS
+========================= -->
+
+<section
+    id="r16"
+    class="page"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Dieciseisavos de final
+        </h2>
+
+        <p>
+            32 selecciones · 16 partidos
+        </p>
+
+    </div>
+
+</div>
+
+<div id="r16Container"></div>
+
+</section>
+
+
+<!-- =========================
+     OCTAVOS
+========================= -->
+
+<section
+    id="r8"
+    class="page"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Octavos de final
+        </h2>
+
+        <p>
+            16 selecciones · 8 partidos
+        </p>
+
+    </div>
+
+</div>
+
+<div id="r8Container"></div>
+
+</section>
+
+
+<!-- =========================
+     CUARTOS
+========================= -->
+
+<section
+    id="qf"
+    class="page"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Cuartos de final
+        </h2>
+
+        <p>
+            8 selecciones · 4 partidos
+        </p>
+
+    </div>
+
+</div>
+
+<div id="qfContainer"></div>
+
+</section>
+
+
+<!-- =========================
+     SEMIFINALES
+========================= -->
+
+<section
+    id="sf"
+    class="page"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Semifinales
+        </h2>
+
+        <p>
+            4 selecciones · 2 partidos
+        </p>
+
+    </div>
+
+</div>
+
+<div id="sfContainer"></div>
+
+</section>
+
+
+<!-- =========================
+     FINAL
+========================= -->
+
+<section
+    id="final"
+    class="page"
+>
+
+<div class="hero">
+
+    <div>
+
+        <h2>
+            Gran final
+        </h2>
+
+        <p>
+            2 selecciones · 1 partido
+        </p>
+
+    </div>
+
+</div>
+
+<div id="finalContainer"></div>
+
+<div id="championContainer"></div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     MODAL MARCADOR
+========================= -->
+
+<div
+    id="scoreModal"
+    class="modal"
+>
+
+<div class="modal-box">
+
+    <h3>
+        Editar marcador
+    </h3>
+
+    <div class="modal-description">
+        Introduce el resultado del partido.
+    </div>
+
+    <div class="score-form">
+
+        <div
+            id="scoreHomeName"
+            class="score-name right"
+        >
+            -
+        </div>
+
+        <input
+            id="scoreHome"
+            class="score-input"
+            type="number"
+            min="0"
+            max="99"
+            value="0"
+        >
+
+        <div
+            id="scoreAwayName"
+            class="score-name"
+        >
+            -
+        </div>
+
+        <div></div>
+
+        <input
+            id="scoreAway"
+            class="score-input"
+            type="number"
+            min="0"
+            max="99"
+            value="0"
+        >
+
+        <div></div>
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button
+            class="btn cancel-btn"
+            onclick="closeModal('scoreModal')"
+        >
+            CANCELAR
+        </button>
+
+        <button
+            class="btn save-btn"
+            onclick="saveScore()"
+        >
+            GUARDAR
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MODAL EQUIPO
+========================= -->
+
+<div
+    id="teamModal"
+    class="modal"
+>
+
+<div class="modal-box">
+
+    <h3>
+        Reemplazar selección
+    </h3>
+
+    <div class="modal-description">
+        Puedes seleccionar cualquiera de las 49 selecciones.
+    </div>
+
+    <div class="select-wrapper">
+
+        <label>
+            NUEVA SELECCIÓN
+        </label>
+
+        <select id="teamSelect"></select>
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button
+            class="btn cancel-btn"
+            onclick="closeModal('teamModal')"
+        >
+            CANCELAR
+        </button>
+
+        <button
+            class="btn save-btn"
+            onclick="saveTeamReplacement()"
+        >
+            REEMPLAZAR
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================================================
+   49 SELECCIONES
+========================================================== */
+
+const teams = [
+
+    ["🇨🇴","Colombia"],
+    ["🇦🇷","Argentina"],
+    ["🇧🇷","Brasil"],
+    ["🇺🇾","Uruguay"],
+    ["🇨🇱","Chile"],
+    ["🇵🇪","Perú"],
+    ["🇪🇨","Ecuador"],
+    ["🇵🇾","Paraguay"],
+    ["🇻🇪","Venezuela"],
+    ["🇧🇴","Bolivia"],
+
+    ["🇲🇽","México"],
+    ["🇺🇸","Estados Unidos"],
+    ["🇨🇦","Canadá"],
+    ["🇨🇷","Costa Rica"],
+    ["🇵🇦","Panamá"],
+    ["🇯🇲","Jamaica"],
+
+    ["🇪🇸","España"],
+    ["🇫🇷","Francia"],
+    ["🇩🇪","Alemania"],
+    ["🇮🇹","Italia"],
+    ["🇵🇹","Portugal"],
+    ["🇳🇱","Países Bajos"],
+    ["🇧🇪","Bélgica"],
+    ["🏴","Inglaterra"],
+    ["🇭🇷","Croacia"],
+    ["🇩🇰","Dinamarca"],
+    ["🇨🇭","Suiza"],
+    ["🇷🇸","Serbia"],
+    ["🇵🇱","Polonia"],
+    ["🇹🇷","Turquía"],
+    ["🇺🇦","Ucrania"],
+    ["🇸🇪","Suecia"],
+    ["🇳🇴","Noruega"],
+    ["🇦🇹","Austria"],
+
+    ["🇲🇦","Marruecos"],
+    ["🇪🇬","Egipto"],
+    ["🇸🇳","Senegal"],
+    ["🇳🇬","Nigeria"],
+    ["🇨🇲","Camerún"],
+    ["🇬🇭","Ghana"],
+    ["🇩🇿","Argelia"],
+    ["🇿🇦","Sudáfrica"],
+
+    ["🇯🇵","Japón"],
+    ["🇰🇷","Corea del Sur"],
+    ["🇦🇺","Australia"],
+    ["🇮🇷","Irán"],
+    ["🇸🇦","Arabia Saudita"],
+    ["🇶🇦","Catar"],
+
+    ["🇨🇮","Costa de Marfil"]
+
+].map((team,index)=>({
+
+    id:index,
+    flag:team[0],
+    name:team[1]
+
+}));
+
+
+/*
+    0 - 47 = participan
+    48 = reserva
+*/
+
+const reserveTeam =
+    teams[48];
+
+
+/* ==========================================================
+   CREAR GRUPOS
+========================================================== */
+
+const groups={};
+
+
+for(let i=0;i<16;i++){
+
+    const letter =
+        String.fromCharCode(65+i);
+
+    groups[letter]=[
+        teams[i],
+        teams[i+16],
+        teams[i+32]
+    ];
+
+}
+
+
+/* ==========================================================
+   CREAR ESTADO
+========================================================== */
+
+function createGroupMatch(home,away){
+
+    return {
+
+        home:home,
+        away:away,
+
+        homeScore:null,
+        awayScore:null
+
+    };
+
+}
+
+
+function createKnockoutMatch(){
+
+    return {
+
+        home:null,
+        away:null,
+
+        homeScore:null,
+        awayScore:null,
+
+        winner:null
+
+    };
+
+}
+
+
+function createState(){
+
+    const data={
+
+        groups:{},
+
+        knockout:{
+
+            r16:
+                Array.from(
+                    {length:16},
+                    createKnockoutMatch
+                ),
+
+            r8:
+                Array.from(
+                    {length:8},
+                    createKnockoutMatch
+                ),
+
+            qf:
+                Array.from(
+                    {length:4},
+                    createKnockoutMatch
+                ),
+
+            sf:
+                Array.from(
+                    {length:2},
+                    createKnockoutMatch
+                ),
+
+            final:
+                Array.from(
+                    {length:1},
+                    createKnockoutMatch
+                )
+
+        }
+
+    };
+
+
+    Object.keys(groups)
+        .forEach(letter=>{
+
+            const g =
+                groups[letter];
+
+
+            data.groups[letter]=[
+
+                createGroupMatch(
+                    g[0],
+                    g[1]
+                ),
+
+                createGroupMatch(
+                    g[0],
+                    g[2]
+                ),
+
+                createGroupMatch(
+                    g[1],
+                    g[2]
+                )
+
+            ];
+
+        });
+
+
+    return data;
+
+}
+
+
+/* ==========================================================
+   CARGAR ESTADO
+========================================================== */
+
+let state =
+    JSON.parse(
+        localStorage.getItem(
+            "mundial48_state"
+        )
+    ) || createState();
+
+
+function save(){
+
+    localStorage.setItem(
+        "mundial48_state",
+        JSON.stringify(state)
+    );
+
+}
+
+
+/* ==========================================================
+   TEXTO EQUIPO
+========================================================== */
+
+function teamText(team){
+
+    if(!team){
+
+        return "POR DEFINIR";
+
+    }
+
+    return (
+        team.flag +
+        " " +
+        team.name
+    );
+
+}
+
+
+/* ==========================================================
+   TABLA
+========================================================== */
+
+function getTable(letter){
+
+    const rows =
+        groups[letter].map(team=>({
+
+            team:team,
+
+            pj:0,
+            g:0,
+            e:0,
+            p:0,
+
+            gf:0,
+            gc:0,
+            dg:0,
+
+            pts:0
+
+        }));
+
+
+    state.groups[letter]
+        .forEach(match=>{
+
+            if(
+                match.homeScore===null ||
+                match.awayScore===null
+            ){
+
+                return;
+
+            }
+
+
+            const home =
+                rows.find(
+                    row =>
+                        row.team.id ===
+                        match.home.id
+                );
+
+
+            const away =
+                rows.find(
+                    row =>
+                        row.team.id ===
+                        match.away.id
+                );
+
+
+            if(!home || !away){
+
+                return;
+
+            }
+
+
+            const hs =
+                Number(match.homeScore);
+
+            const as =
+                Number(match.awayScore);
+
+
+            home.pj++;
+            away.pj++;
+
+
+            home.gf += hs;
+            home.gc += as;
+
+            away.gf += as;
+            away.gc += hs;
+
+
+            if(hs > as){
+
+                home.g++;
+                away.p++;
+
+                home.pts += 3;
+
+            }
+
+            else if(as > hs){
+
+                away.g++;
+                home.p++;
+
+                away.pts += 3;
+
+            }
+
+            else{
+
+                home.e++;
+                away.e++;
+
+                home.pts++;
+                away.pts++;
+
+            }
+
+        });
+
+
+    rows.forEach(
+        row =>
+            row.dg =
+                row.gf-row.gc
+    );
+
+
+    rows.sort((a,b)=>{
+
+        if(b.pts !== a.pts)
+            return b.pts-a.pts;
+
+        if(b.dg !== a.dg)
+            return b.dg-a.dg;
+
+        if(b.gf !== a.gf)
+            return b.gf-a.gf;
+
+        return a.team.name.localeCompare(
+            b.team.name
+        );
+
+    });
+
+
+    return rows;
+
+}
+
+
+/* ==========================================================
+   GRUPO TERMINADO
+========================================================== */
+
+function groupFinished(letter){
+
+    return state.groups[letter]
+        .every(
+            match =>
+                match.homeScore !== null &&
+                match.awayScore !== null
+        );
+
+}
+
+
+/* ==========================================================
+   RENDER GRUPOS
+========================================================== */
+
+function renderGroups(){
+
+    const container =
+        document.getElementById(
+            "groupsContainer"
+        );
+
+
+    container.innerHTML="";
+
+
+    Object.keys(groups)
+        .forEach(letter=>{
+
+            const table =
+                getTable(letter);
+
+
+            const group =
+                document.createElement(
+                    "div"
+                );
+
+
+            group.className="group";
+
+
+            let html = `
+
+                <div class="group-header">
+
+                    <strong>
+                        GRUPO ${letter}
+                    </strong>
+
+                    <span>
+                        ${
+                            groupFinished(letter)
+                            ? "COMPLETADO"
+                            : "PARTIDOS PENDIENTES"
+                        }
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+                                <th>SELECCIÓN</th>
+                                <th>PJ</th>
+                                <th>G</th>
+                                <th>E</th>
+                                <th>P</th>
+                                <th>GF</th>
+                                <th>GC</th>
+                                <th>DG</th>
+                                <th>PTS</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+            `;
+
+
+            table.forEach((row,index)=>{
+
+                html += `
+
+                    <tr
+                        class="${
+                            index < 2
+                            ? "qualified"
+                            : ""
+                        }"
+                    >
+
+                        <td class="position">
+                            ${index+1}
+                        </td>
+
+                        <td class="team-name">
+                            ${teamText(row.team)}
+                        </td>
+
+                        <td>${row.pj}</td>
+                        <td>${row.g}</td>
+                        <td>${row.e}</td>
+                        <td>${row.p}</td>
+                        <td>${row.gf}</td>
+                        <td>${row.gc}</td>
+                        <td>
+                            ${
+                                row.dg > 0
+                                ? "+"
+                                : ""
+                            }${row.dg}
+                        </td>
+
+                        <td class="points">
+                            ${row.pts}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            });
+
+
+            html += `
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <div class="group-matches">
+
+                    <div class="matches-label">
+                        PARTIDOS
+                    </div>
+
+            `;
+
+
+            state.groups[letter]
+                .forEach((match,index)=>{
+
+                    const played =
+                        match.homeScore !== null &&
+                        match.awayScore !== null;
+
+
+                    html += `
+
+                        <div class="group-match">
+
+                            <div class="match-team right">
+                                ${teamText(match.home)}
+                            </div>
+
+                            <div class="match-score">
+
+                                ${
+                                    played
+                                    ? `${match.homeScore} - ${match.awayScore}`
+                                    : "VS"
+                                }
+
+                                <div
+                                    class="
+                                        match-state
+                                        ${played ? "finished" : ""}
+                                    "
+                                >
+
+                                    ${
+                                        played
+                                        ? "FINALIZADO"
+                                        : "POR JUGAR"
+                                    }
+
+                                </div>
+
+                            </div>
+
+                            <div class="match-team">
+                                ${teamText(match.away)}
+                            </div>
+
+
+                            <div class="actions">
+
+                                <button
+                                    class="btn btn-edit"
+                                    onclick="
+                                        editGroupScore(
+                                            '${letter}',
+                                            ${index}
+                                        )
+                                    "
+                                >
+                                    ✏️ MARCADOR
+                                </button>
+
+
+                                <button
+                                    class="btn btn-team"
+                                    onclick="
+                                        editGroupTeam(
+                                            '${letter}',
+                                            ${index},
+                                            'home'
+                                        )
+                                    "
+                                >
+                                    🏳️ LOCAL
+                                </button>
+
+
+                                <button
+                                    class="btn btn-team"
+                                    onclick="
+                                        editGroupTeam(
+                                            '${letter}',
+                                            ${index},
+                                            'away'
+                                        )
+                                    "
+                                >
+                                    🏳️ VISITANTE
+                                </button>
+
+
+                                <button
+                                    class="btn btn-sim"
+                                    onclick="
+                                        simulateGroup(
+                                            '${letter}',
+                                            ${index}
+                                        )
+                                    "
+                                >
+                                    🎲 SIMULAR
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                });
+
+
+            html += `
+
+                </div>
+
+            `;
+
+
+            group.innerHTML=html;
+
+            container.appendChild(group);
+
+        });
+
+
+    document.getElementById(
+        "reserveContainer"
+    ).innerHTML = `
+
+        <div class="reserve">
+
+            <div class="reserve-title">
+                🏳️ SELECCIÓN RESERVA
+            </div>
+
+            <div class="reserve-text">
+                ${teamText(reserveTeam)}
+                — disponible para utilizarse mediante
+                "Reemplazar selección".
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================================
+   GENERAR DIECISEISAVOS
+========================================================== */
+
+function generateR16(){
+
+    const pairings=[
+
+        ["A",0,"B",1],
+        ["B",0,"A",1],
+
+        ["C",0,"D",1],
+        ["D",0,"C",1],
+
+        ["E",0,"F",1],
+        ["F",0,"E",1],
+
+        ["G",0,"H",1],
+        ["H",0,"G",1],
+
+        ["I",0,"J",1],
+        ["J",0,"I",1],
+
+        ["K",0,"L",1],
+        ["L",0,"K",1],
+
+        ["M",0,"N",1],
+        ["N",0,"M",1],
+
+        ["O",0,"P",1],
+        ["P",0,"O",1]
+
+    ];
+
+
+    pairings.forEach((p,index)=>{
+
+        const match =
+            state.knockout.r16[index];
+
+
+        /*
+            Si el partido todavía no fue
+            editado manualmente, se rellenan
+            automáticamente los clasificados.
+        */
+
+        if(
+            !match.home &&
+            groupFinished(p[0])
+        ){
+
+            match.home =
+                getTable(p[0])[p[1]].team;
+
+        }
+
+
+        if(
+            !match.away &&
+            groupFinished(p[2])
+        ){
+
+            match.away =
+                getTable(p[2])[p[3]].team;
+
+        }
+
+    });
+
+}
+
+
+/* ==========================================================
+   AVANCE ENTRE FASES
+========================================================== */
+
+function advanceRound(from,to){
+
+    const current =
+        state.knockout[from];
+
+    const next =
+        state.knockout[to];
+
+
+    current.forEach((match,index)=>{
+
+        if(!match.winner)
+            return;
+
+
+        const target =
+            Math.floor(index/2);
+
+
+        if(index % 2 === 0){
+
+            next[target].home =
+                match.winner;
+
+        }
+        else{
+
+            next[target].away =
+                match.winner;
+
+        }
+
+    });
+
+}
+
+
+/* ==========================================================
+   ACTUALIZAR TORNEO
+========================================================== */
+
+function updateTournament(){
+
+    generateR16();
+
+    advanceRound(
+        "r16",
+        "r8"
+    );
+
+    advanceRound(
+        "r8",
+        "qf"
+    );
+
+    advanceRound(
+        "qf",
+        "sf"
+    );
+
+    advanceRound(
+        "sf",
+        "final"
+    );
+
+    save();
+
+}
+
+
+/* ==========================================================
+   RENDER ELIMINATORIAS
+========================================================== */
+
+function renderRound(
+    containerId,
+    round,
+    title
+){
+
+    const container =
+        document.getElementById(
+            containerId
+        );
+
+
+    const matches =
+        state.knockout[round];
+
+
+    let html = `
+
+        <div class="bracket-wrapper">
+
+            <div class="bracket">
+
+                <div class="round">
+
+                    <div class="round-title">
+                        ${title}
+                    </div>
+
+                    <div class="round-list">
+
+    `;
+
+
+    matches.forEach((match,index)=>{
+
+        const played =
+            match.homeScore !== null &&
+            match.awayScore !== null;
+
+
+        const homeWinner =
+            match.winner &&
+            match.home &&
+            match.winner.id ===
+            match.home.id;
+
+
+        const awayWinner =
+            match.winner &&
+            match.away &&
+            match.winner.id ===
+            match.away.id;
+
+
+        html += `
+
+            <div class="knockout-match">
+
+                <div
+                    class="
+                        knockout-team
+                        ${homeWinner ? "winner" : ""}
+                        ${!match.home ? "waiting" : ""}
+                    "
+                >
+
+                    <span>
+                        ${teamText(match.home)}
+                    </span>
+
+                    ${
+                        played
+                        ? `<b>${match.homeScore}</b>`
+                        : ""
+                    }
+
+                </div>
+
+
+                <div
+                    class="
+                        knockout-team
+                        ${awayWinner ? "winner" : ""}
+                        ${!match.away ? "waiting" : ""}
+                    "
+                >
+
+                    <span>
+                        ${teamText(match.away)}
+                    </span>
+
+                    ${
+                        played
+                        ? `<b>${match.awayScore}</b>`
+                        : ""
+                    }
+
+                </div>
+
+
+                <div class="knockout-state">
+
+                    ${
+                        played
+                        ? "FINALIZADO"
+                        : "POR JUGAR"
+                    }
+
+                </div>
+
+
+                <div class="knockout-actions">
+
+                    <button
+                        class="btn btn-edit"
+                        onclick="
+                            editKnockoutScore(
+                                '${round}',
+                                ${index}
+                            )
+                        "
+                    >
+                        ✏️ MARCADOR
+                    </button>
+
+
+                    <button
+                        class="btn btn-team"
+                        onclick="
+                            editKnockoutTeam(
+                                '${round}',
+                                ${index},
+                                'home'
+                            )
+                        "
+                    >
+                        🏳️ LOCAL
+                    </button>
+
+
+                    <button
+                        class="btn btn-team"
+                        onclick="
+                            editKnockoutTeam(
+                                '${round}',
+                                ${index},
+                                'away'
+                            )
+                        "
+                    >
+                        🏳️ VISITANTE
+                    </button>
+
+
+                    <button
+                        class="btn btn-sim"
+                        onclick="
+                            simulateKnockout(
+                                '${round}',
+                                ${index}
+                            )
+                        "
+                    >
+                        🎲 SIMULAR
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    html += `
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    container.innerHTML=html;
+
+}
+
+
+/* ==========================================================
+   EDITAR MARCADOR
+========================================================== */
+
+let scoreEditing=null;
+
+
+function editGroupScore(
+    letter,
+    index
+){
+
+    const match =
+        state.groups[letter][index];
+
+
+    scoreEditing={
+
+        type:"group",
+        letter:letter,
+        index:index
+
+    };
+
+
+    openScoreModal(
+        match.home,
+        match.away,
+        match.homeScore,
+        match.awayScore
+    );
+
+}
+
+
+function editKnockoutScore(
+    round,
+    index
+){
+
+    const match =
+        state.knockout[round][index];
+
+
+    if(
+        !match.home ||
+        !match.away
+    ){
+
+        alert(
+            "⚠️ Este partido todavía tiene equipos por definir."
+        );
+
+        return;
+
+    }
+
+
+    scoreEditing={
+
+        type:"knockout",
+        round:round,
+        index:index
+
+    };
+
+
+    openScoreModal(
+        match.home,
+        match.away,
+        match.homeScore,
+        match.awayScore
+    );
+
+}
+
+
+/* ==========================================================
+   ABRIR MODAL MARCADOR
+========================================================== */
+
+function openScoreModal(
+    home,
+    away,
+    homeScore,
+    awayScore
+){
+
+    document.getElementById(
+        "scoreHomeName"
+    ).textContent =
+        teamText(home);
+
+
+    document.getElementById(
+        "scoreAwayName"
+    ).textContent =
+        teamText(away);
+
+
+    document.getElementById(
+        "scoreHome"
+    ).value =
+        homeScore === null
+        ? 0
+        : homeScore;
+
+
+    document.getElementById(
+        "scoreAway"
+    ).value =
+        awayScore === null
+        ? 0
+        : awayScore;
+
+
+    document.getElementById(
+        "scoreModal"
+    ).classList.add("show");
+
+}
+
+
+/* ==========================================================
+   GUARDAR MARCADOR
+========================================================== */
+
+function saveScore(){
+
+    if(!scoreEditing)
+        return;
+
+
+    const hs =
+        Number(
+            document.getElementById(
+                "scoreHome"
+            ).value
+        );
+
+
+    const as =
+        Number(
+            document.getElementById(
+                "scoreAway"
+            ).value
+        );
+
+
+    if(
+        !Number.isInteger(hs) ||
+        !Number.isInteger(as) ||
+        hs < 0 ||
+        as < 0
+    ){
+
+        alert(
+            "⚠️ Marcador inválido."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        scoreEditing.type ===
+        "group"
+    ){
+
+        const match =
+            state.groups[
+                scoreEditing.letter
+            ][scoreEditing.index];
+
+
+        match.homeScore=hs;
+        match.awayScore=as;
+
+    }
+
+
+    else{
+
+        const match =
+            state.knockout[
+                scoreEditing.round
+            ][scoreEditing.index];
+
+
+        if(hs === as){
+
+            alert(
+                "⚠️ En una eliminatoria debe haber un ganador."
+            );
+
+            return;
+
+        }
+
+
+        match.homeScore=hs;
+        match.awayScore=as;
+
+
+        match.winner =
+            hs > as
+            ? match.home
+            : match.away;
+
+    }
+
+
+    closeModal(
+        "scoreModal"
+    );
+
+
+    updateTournament();
+
+    renderAll();
+
+}
+
+
+/* ==========================================================
+   EDITAR EQUIPO
+========================================================== */
+
+let teamEditing=null;
+
+
+function prepareTeamSelect(){
+
+    const select =
+        document.getElementById(
+            "teamSelect"
+        );
+
+
+    select.innerHTML="";
+
+
+    teams.forEach(team=>{
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+
+        option.value =
+            team.id;
+
+
+        option.textContent =
+            teamText(team);
+
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+function editGroupTeam(
+    letter,
+    index,
+    side
+){
+
+    const match =
+        state.groups[letter][index];
+
+
+    teamEditing={
+
+        type:"group",
+        letter:letter,
+        index:index,
+        side:side
+
+    };
+
+
+    prepareTeamSelect();
+
+
+    document.getElementById(
+        "teamSelect"
+    ).value =
+        match[side]
+        ? match[side].id
+        : 0;
+
+
+    document.getElementById(
+        "teamModal"
+    ).classList.add("show");
+
+}
+
+
+function editKnockoutTeam(
+    round,
+    index,
+    side
+){
+
+    const match =
+        state.knockout[round][index];
+
+
+    teamEditing={
+
+        type:"knockout",
+        round:round,
+        index:index,
+        side:side
+
+    };
+
+
+    prepareTeamSelect();
+
+
+    document.getElementById(
+        "teamSelect"
+    ).value =
+        match[side]
+        ? match[side].id
+        : 0;
+
+
+    document.getElementById(
+        "teamModal"
+    ).classList.add("show");
+
+}
+
+
+/* ==========================================================
+   COMPROBAR SI EQUIPO YA ESTÁ USADO
+========================================================== */
+
+function teamAlreadyUsed(
+    teamId,
+    exceptType,
+    exceptData
+){
+
+    /*
+       Esta comprobación evita duplicados
+       en los grupos y eliminatorias.
+
+       El equipo puede aparecer en distintas
+       fases porque es el mismo clasificado.
+    */
+
+    return false;
+
+}
+
+
+/* ==========================================================
+   GUARDAR REEMPLAZO
+========================================================== */
+
+function saveTeamReplacement(){
+
+    if(!teamEditing)
+        return;
+
+
+    const id =
+        Number(
+            document.getElementById(
+                "teamSelect"
+            ).value
+        );
+
+
+    const newTeam =
+        teams.find(
+            team =>
+                team.id === id
+        );
+
+
+    if(!newTeam)
+        return;
+
+
+    if(
+        teamEditing.type ===
+        "group"
+    ){
+
+        const match =
+            state.groups[
+                teamEditing.letter
+            ][teamEditing.index];
+
+
+        const otherSide =
+            teamEditing.side === "home"
+            ? "away"
+            : "home";
+
+
+        if(
+            match[otherSide] &&
+            match[otherSide].id ===
+            newTeam.id
+        ){
+
+            alert(
+                "⚠️ No puedes colocar la misma selección en ambos lados."
+            );
+
+            return;
+
+        }
+
+
+        match[
+            teamEditing.side
+        ] = newTeam;
+
+    }
+
+
+    else{
+
+        const match =
+            state.knockout[
+                teamEditing.round
+            ][teamEditing.index];
+
+
+        const otherSide =
+            teamEditing.side === "home"
+            ? "away"
+            : "home";
+
+
+        if(
+            match[otherSide] &&
+            match[otherSide].id ===
+            newTeam.id
+        ){
+
+            alert(
+                "⚠️ No puedes colocar la misma selección en ambos lados."
+            );
+
+            return;
+
+        }
+
+
+        match[
+            teamEditing.side
+        ] = newTeam;
+
+
+        /*
+           Si reemplazamos un equipo de un
+           partido ya terminado, conservamos
+           el marcador pero recalculamos el ganador.
+        */
+
+        if(
+            match.home &&
+            match.away &&
+            match.homeScore !== null &&
+            match.awayScore !== null
+        ){
+
+            match.winner =
+                match.homeScore >
+                match.awayScore
+                ? match.home
+                : match.away;
+
+        }
+
+    }
+
+
+    closeModal(
+        "teamModal"
+    );
+
+
+    updateTournament();
+
+    renderAll();
+
+}
+
+
+/* ==========================================================
+   SIMULAR GRUPO
+========================================================== */
+
+function simulateGroup(
+    letter,
+    index
+){
+
+    const match =
+        state.groups[letter][index];
+
+
+    match.homeScore =
+        Math.floor(
+            Math.random()*6
+        );
+
+
+    match.awayScore =
+        Math.floor(
+            Math.random()*6
+        );
+
+
+    updateTournament();
+
+    renderAll();
+
+}
+
+
+/* ==========================================================
+   SIMULAR ELIMINATORIA
+========================================================== */
+
+function simulateKnockout(
+    round,
+    index
+){
+
+    const match =
+        state.knockout[
+            round
+        ][index];
+
+
+    if(
+        !match.home ||
+        !match.away
+    ){
+
+        alert(
+            "⚠️ Todavía faltan equipos por definir."
+        );
+
+        return;
+
+    }
+
+
+    let hs =
+        Math.floor(
+            Math.random()*5
+        );
+
+
+    let as =
+        Math.floor(
+            Math.random()*5
+        );
+
+
+    /*
+       En eliminatorias no permitimos
+       empate.
+    */
+
+    if(hs === as){
+
+        if(Math.random() < .5)
+            hs++;
+        else
+            as++;
+
+    }
+
+
+    match.homeScore=hs;
+    match.awayScore=as;
+
+
+    match.winner =
+        hs > as
+        ? match.home
+        : match.away;
+
+
+    updateTournament();
+
+    renderAll();
+
+}
+
+
+/* ==========================================================
+   CAMBIAR PÁGINA
+========================================================== */
+
+function changePage(
+    id,
+    button
+){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(
+            page =>
+                page.classList.remove(
+                    "active"
+                )
+        );
+
+
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    button.classList.add("active");
+
+}
+
+
+/* ==========================================================
+   CAMPEÓN
+========================================================== */
+
+function renderChampion(){
+
+    const container =
+        document.getElementById(
+            "championContainer"
+        );
+
+
+    const final =
+        state.knockout.final[0];
+
+
+    if(
+        final &&
+        final.winner
+    ){
+
+        container.innerHTML = `
+
+            <div class="champion">
+
+                <div class="cup">
+                    🏆
+                </div>
+
+                <h3>
+                    CAMPEÓN DEL MUNDIAL
+                </h3>
+
+                <div class="champion-name">
+                    ${teamText(final.winner)}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+    else{
+
+        container.innerHTML="";
+
+    }
+
+}
+
+
+/* ==========================================================
+   RENDER TODO
+========================================================== */
+
+function renderAll(){
+
+    renderGroups();
+
+
+    renderRound(
+        "r16Container",
+        "r16",
+        "DIECISEISAVOS"
+    );
+
+
+    renderRound(
+        "r8Container",
+        "r8",
+        "OCTAVOS"
+    );
+
+
+    renderRound(
+        "qfContainer",
+        "qf",
+        "CUARTOS"
+    );
+
+
+    renderRound(
+        "sfContainer",
+        "sf",
+        "SEMIFINALES"
+    );
+
+
+    renderRound(
+        "finalContainer",
+        "final",
+        "GRAN FINAL"
+    );
+
+
+    renderChampion();
+
+}
+
+
+/* ==========================================================
+   CERRAR MODALES
+========================================================== */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.remove("show");
+
+
+    if(id === "scoreModal")
+        scoreEditing=null;
+
+
+    if(id === "teamModal")
+        teamEditing=null;
+
+}
+
+
+document
+    .querySelectorAll(".modal")
+    .forEach(modal=>{
+
+        modal.addEventListener(
+            "click",
+            event=>{
+
+                if(
+                    event.target ===
+                    modal
+                ){
+
+                    closeModal(
+                        modal.id
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* ==========================================================
+   REINICIAR
+========================================================== */
+
+function resetTournament(){
+
+    const confirmReset =
+        confirm(
+
+            "⚠️ REINICIAR TORNEO\n\n"+
+            "Se eliminarán todos los "+
+            "marcadores, puntos, ganadores "+
+            "y clasificaciones.\n\n"+
+            "¿Quieres continuar?"
+
+        );
+
+
+    if(!confirmReset)
+        return;
+
+
+    state =
+        createState();
+
+
+    save();
+
+    updateTournament();
+
+    renderAll();
+
+
+    alert(
+        "✅ El torneo ha sido reiniciado."
+    );
+
+}
+
+
+/* ==========================================================
+   INICIO
+========================================================== */
+
+updateTournament();
+
+renderAll();
+
+</script>
+
+</body>
+</html>
